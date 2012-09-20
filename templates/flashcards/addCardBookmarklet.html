@@ -1,0 +1,43 @@
+<html>
+  <head>
+    {% load media %}
+    {% include_media 'main.js' %}
+    {% include_media 'myCards.js' %}
+    {% include_media 'bookmarklet.js' %}
+    {% include_media 'myCards.css' %}
+    {% include_media 'bookmarklet.css' %}
+    {% load custom_filters %}
+    <title>Add to Thoughtsaver</title>
+  </head>
+  <body>
+    <span id="createcard">create card</span>
+    <div class="inner round-border">
+      <div class='newcard'><td class="test_checkbox"></td>
+        <div id="left-add-card">
+          <span>{{ cardform.front }}</span><br/>
+          <span>{{ cardform.back }}</span><br/>
+          <span>{{ cardform.tagField }}</span>
+        </div>
+        <div id="right-add-card">
+          <!--<span class="example">{{ cardform.sourceField }}</span>-->
+          priority:
+          <span id="priority-ui">
+            <span>5</span>
+            <span>4</span>
+            <span>3</span>
+            <span>2</span>
+            <span>1</span>
+          </span><br/>
+          <span class="priority" style="display: none;">{{ cardform.priority }}</span>
+          <span>{{ cardform.donottest }}</span> quiz me on this<br/>
+          <span>{{ cardform.private }}</span> make private<br/>
+          <div class="srcinput">{{ cardform.source1 }}</div>
+          <div class="srcinput">{{ cardform.source2 }}</div>
+          <div class="button newcard_add">create card</div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+  
+</html>

@@ -1,0 +1,327 @@
+<html>
+  <head>
+    {% load media %}
+    {% include_media 'main.js' %}
+    {% include_media 'myCards.js' %}
+    {% include_media 'myCards.css' %}
+    {% include_media 'base.css' %}
+    {% load custom_filters %}
+  </head>
+  <body>
+    {% include 'header.html' %}
+    
+    {% if not shareSet %}
+    <div class="inner">
+      <div id="searchbar-container">
+        <form id="searchform" method="get" action="">
+          <span class="medium-font">search cards</span>
+          <div id="searchbar-bar">
+            <input name="tags" type="text" maxlength=100 value="{{ tagsString }}" />
+            <div>
+              {% for tag in suggestedTags %}
+                <span class="suggestedTag">{{ tag }}</span> 
+              {% endfor %}
+            </div>
+          </div>
+          
+          <a class="button" id="searchbar_button">search</a>
+          <span id="mycardsonly">
+            my cards only <input type="checkbox" name="mycardsonly" {% if mycardsonly %}checked="checked"{% endif %} />
+          </span>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+    
+    {% if not shareSet or shareSet.editable %}
+    <span id="createcard">create card</span>
+    <div class="inner round-border">
+      <div class='newcard'><td class="test_checkbox"></td>
+        <div id="left-add-card">
+          <span>{{ cardform.front }}</span><br/>
+          <span>{{ cardform.back }}</span><br/>
+        </div>
+        <div id="right-add-card">
+          <div class="tagfield"><div class="left">tags:</div> {{ cardform.tagField }}</div>
+          
+          <div id="source-container">
+          <div class="left">sources:</div> <textarea id="sources-textarea" class="example">source1
+source2
+            </textarea>
+            <div class="hide srcinput">{{ cardform.source1 }}</div>
+            <div class="hide srcinput">{{ cardform.source2 }}</div>
+          </div>
+          {% comment %}{% for tag in suggestedTags %}
+            <span class="tagoptions">{{ tag }}</span> 
+          {% endfor %}
+          {% endcomment %}
+          <!--<span class="example">{{ cardform.sourceField }}</span>-->
+          <div id="priority-container">
+            <div id="priority-title">
+              priority
+            </div>
+            <div id="priority-ui">
+              <span>4</span>
+              <span>3</span>
+              <span>2</span>
+              <span>1</span>
+              <span>0</span>
+            </div>
+            <span class="priority" style="display: none;">{{ cardform.priority }}</span>
+          </div>
+          
+          <div id="extras-container">
+            <span>{{ cardform.donottest }}</span> quiz me
+            <span>{{ cardform.private }}</span> private
+          </div>
+          <div class="button newcard_add">save card</div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  
+  {% if shareSet %}
+  <input type="hidden" name="shareSet" value="true" />
+  {% endif %}
+
+    
+    <form id="cardform" method="post" action="/test">
+      <!--<span id="quizme">quiz me</span>
+      <div class="inner round-border">
+        <div id="quiz-options">
+          <input name="quiz-choice" type="radio" value="c" /> selected cards
+          <input name="quiz-choice" type="radio" value="t" /> searched tags
+          <input name="quiz-choice" type="radio" value="r" /> search results
+          <input name="quiz-choice" type="radio" value="a" /> all my cards
+          <a class="button">start quiz</a>
+        </div>
+      </div>-->
+      
+      {%comment%}
+      {% for fc in cards %}
+        {% if mycardsonly or fc.card.settings != settings %}
+        <tr id="{{ fc.card.pk }}" class="oldcard {% if mycardsonly %}mycard{% endif %}">
+          <td class="hidden"><input type="checkbox" name="{{ fc.card.pk }}"/></td>
+          <td title="{{ fc.card.front }}">{{ fc.card.front }}</td>
+          <td title="{{ fc.card.back }}">{{ fc.card.back }}</td>
+          <td title="{{ fc.tagList|join:", " }}">{{ fc.tagList|join:", " }}</td>
+          <td title="{{ fc.sourceList.0 }}" title2="{{ fc.sourceList.1 }}">{{ fc.sourceList.0 }}<br/>{{ fc.sourceList.1 }}</td>
+          <td>
+            <span class="td_priv">{% if fc.card.private %}true{% else %}false{% endif %}</span>{% if fc.card.private %}<img id="lock" src="/site_media/img/privacy_lock.jpg"/>{% endif %}
+            <span class="td_dnt">{% if fc.card.donottest %}false{% else %}true{% endif %}</span>
+            <span class="td_prior prior_{{ fc.card.priority }}">{{ fc.card.priority }}</span>
+          </td>
+          <td>
+            {% if fc.card.settings == settings.pk %}<span class="removecard_td" name="/removeCard/{{ fc.card.pk }}">REMOVE CARD</span>
+            {% else %}<span class="copyCard">ADD CARD</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      {%endcomment%}
+
+      <ul>
+      {% for fc in cards %}
+        {% if mycardsonly or fc.card.settings != settings %}
+          <li id="{{ fc.card.pk }}" class="oldcard {% if mycardsonly%}mycard{% endif %}">
+            <div class="li-shape">
+              <input class="hide pkInput" type="checkbox" name="{{ fc.card.pk }}"/>
+              <div class="content">
+                <div class="front" title="{{ fc.card.front }}">{{ fc.card.front }}</div>  
+                <div class="back" title="{{ fc.card.back }}">{{ fc.card.back }}</div>  
+              </div>
+              <div class="searchables">
+                <div class="tagfield-title">t:</div><div class="tagfield" title="{{ fc.tagList|join:", " }}">{{ fc.tagList|join:", " }}</div>
+                <div class="sourcefield-title">s:</div><div class="sourcefield" title="{{ fc.sourceList.0 }}" title2="{{ fc.sourceList.1 }}">{{ fc.sourceList.0 }}<br/>{{ fc.sourceList.1 }}</div>
+              </div>
+              <div class="extras">
+                <span class="td_priv">{% if fc.card.private %}true{% else %}false{% endif %}</span>{% if fc.card.private %}<img id="lock" src="/site_media/img/privacy_lock.jpg"/>{% endif %}
+                <span class="td_dnt">{% if fc.card.donottest %}false{% else %}true{% endif %}</span>
+                <span class="td_prior prior_{{ fc.card.priority }}">{{ fc.card.priority }}</span>
+              </div>
+              <div class="hide meta">
+                {% if fc.card.settings == settings.pk %}<span class="removecard" name="/removeCard/{{ fc.card.pk }}">REMOVE CARD</span>
+                {% else %}<span class="copyCard">ADD CARD</span>  
+                {% endif %}
+              </div>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+          <li id="sampleLi" class="hide oldcard {% if mycardsonly%}mycard{% endif %}">
+            <div class="li-shape">
+              <input class="hide pkInput" type="checkbox" name=""/>
+              <div class="content">
+                <div class="front" title=""></div>  
+                <div class="back" title=""></div>  
+              </div>
+              <div class="searchables">
+                <div class="tagfield-title">t:</div><div class="tagfield" title=""></div>
+                <div class="sourcefield-title">s:</div><div class="sourcefield" title="" title2=""></div>
+              </div>
+              <div class="extras">
+                <span class="td_priv"></span>
+                <span class="td_dnt"></span>
+                <span class="td_prior"></span>
+              </div>
+              <div class="hide meta">
+              </div>
+            </div>
+          </li>
+      </ul>
+      
+      
+      <div id="toolbar">
+        <div id="toolbar-wrapper">
+          <a><div class="tbutton off">
+            <img class="on" src="/site_media/img/quizme.gif"/>
+            <img class="off" src="/site_media/img/quizme-grey.gif"/><br/>
+            start quiz
+          </div></a>
+          
+          <div id="select-all-button" class="tbutton">
+            <img src="/site_media/img/selectall.gif"/><br/>
+            select all
+          </div>
+          <div id="select-none-button" class="tbutton hidden">
+            <img src="/site_media/img/selectall.gif"/><br/>
+            select none
+          </div>
+
+          <div id="bulk-edit" class="tbutton off">
+            <img class="on" src="/site_media/img/bulkedit.gif"/>
+            <img class="off" src="/site_media/img/bulkedit-grey.gif"/><br/>
+            bulk edit
+          </div>
+          
+          <div id="bulk-remove" class="tbutton off">
+            <img class="on" src="/site_media/img/delete.gif"/>
+            <img class="off" src="/site_media/img/delete-grey.gif"/><br/>
+            delete
+          </div>
+          
+          <div id="share" class="tbutton off">
+            <img class="on" src="/site_media/img/share.gif"/>
+            <img class="off" src="/site_media/img/share-grey.gif"/><br/>
+            share
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    
+    <div id="hidden-details">
+      <img id="lock" src="/site_media/img/privacy_lock.jpg"/>
+      <input type="hidden" id="alreadySelectedCards" value="{% for s in selectedCards %}{{s}} {% endfor %}" />
+
+
+      <!-- Inputs for Lazy Load -->
+      <input id="fullpath" type="hidden" value="{{ request.get_full_path }}"/>
+      <input id="settingspk" type="hidden" value="{{ settings.pk }}"/>
+    </div>
+    
+    <div id="bulk-remove-toolbar" class="bulk-toolbar">
+      <h2>delete cards</h2>
+      <p class="plural">Permanently delete all <span class="selectedCardCount">0</span> selected cards?</p>
+      <p class="singular">Permanently delete card?</p>
+      <span id="bulk-remove-button" class="button">delete</span><span id="close-button" class="button">cancel</span>
+    </div>
+    
+    <div id="bulk-edit-toolbar" class="bulk-toolbar">
+      <div id="bulk-edit-title" class="plural">editing <span class="selectedCardCount">0</span> selected cards</div>
+      <div id="bulk-edit-title" class="singular">editing selected card</div>
+      
+      
+      <div id="bulk-edit-add">
+        <div class="bracket-med"><span>add</span></div>
+        <div class="edit-inputs">
+          <div class="tagfield">
+            <input id="bulk-edit-add-tags" type="text" class="example" title="tags to add"/>
+            <div class="bulk-edit-tags">
+              {% for tag in suggestedTags %}
+                <span class="tagoptions">{{ tag }}</span> 
+              {% endfor %}
+            </div>
+          </div>
+          <input type="text" id="bulk-edit-add-sources" class="example tagfield" title="sources to add"/>
+        </div>
+      </div>
+      
+      <div id="bulk-edit-remove">
+        <div class="bracket-med"><span>remove</span></div>
+        <div class="edit-inputs">
+          <div class="tagfield">
+            <input type="text" id="bulk-edit-remove-tags" class="example" title="tags to add"/>
+            <div class="bulk-edit-tags">
+              {% for tag in suggestedTags %}
+                <span class="tagoptions">{{ tag }}</span> 
+              {% endfor %}
+            </div>
+          </div>
+          <input type="text" id="bulk-edit-remove-sources" class="example tagfield" title="sources to add"/>
+        </div>
+      </div>
+      
+      <div id="bulk-edit-modify">
+        <div class="bracket-large"><span>modify</span></div>
+        <div class="modify-div">
+          priority:
+          <span id="priority-ui2">
+            <span>4</span>
+            <span>3</span>
+            <span>2</span>
+            <span>1</span>
+            <span>0</span>
+          </span>
+        </div>
+        <span style="display: none;">
+          <input type="radio" name="prioritybulk" value="0"/>
+          <input type="radio" name="prioritybulk" value="1"/>
+          <input type="radio" name="prioritybulk" value="2"/>
+          <input type="radio" name="prioritybulk" value="3"/>
+          <input type="radio" name="prioritybulk" value="4"/>
+        </span>
+        <div class="modify-div">
+          <input class="hide" name="quizable" type="radio" value="" checked="checked">
+          <input name="quizable" type="radio" value="true"> quiz<br/>
+          <input name="quizable" type="radio" value="false"> don't quiz
+        </div>
+        <div class="modify-div">
+          <input class="hide" name="isprivate" type="radio" value="" checked="checked">
+          <input name="isprivate" type="radio" value="false"> public<br/>
+          <input name="isprivate" type="radio" value="true"> private
+        </div>
+      </div>
+      <div id="save-edits"><span class="button">save edits</span><div class="hide" id="save-edits-text">SAVED!</div></div>
+    </div>
+    
+    <div id="bulk-share" class="bulk-toolbar">
+      <div id="bulk-share-title" class="plural">share <span class="selectedCardCount">0</span> selected cards</div>
+      <div id="bulk-share-title" class="singular">share selected card</div>
+      <div id="share-friends">
+        <div class="bracket-med"><span>friends</span></div>
+        <input type="text" value="emails and/or usernames" />
+      </div>
+      <div id="share-groups">
+        <div class="bracket-med"><span>groups</span></div>
+        <select name="">
+          <option value=""></option>
+        </select>
+      </div>
+      <div id="share-button-div">
+        <span id="share-button" class="button">share</span>
+      </div>
+      <div id="social-networks-title" class="bracket-large"><span>social networks</span></div>
+      <div id="share-social">
+        <a id="twitter-a" target="_blank">
+          <div id="twitter-button" class="share-social-icon"></div>
+        </a>
+      </div>
+    </div>
+
+    {% include 'flashcards/bookmarkletContainer.html' %}
+
+  </body>
+  
+</html>

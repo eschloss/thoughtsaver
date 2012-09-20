@@ -1,0 +1,14 @@
+<div id="header">
+  <div class="inner">
+    <div id="links">
+      {% if user.is_authenticated %}<a href="/accounts/logout/">log out</a>{% else %}<a href="/accounts/login/">log in</a>{% endif %} |
+      <a href="/help">help</a>
+      {% if user.is_authenticated %} | <a href="/accounts/preferences">prefs</a> |
+      <a href="/import/importingOptions">import</a> | 
+      <a href="#" id="export">export</a> | 
+      <a href="/myTags">my tags</a> | 
+      <a>my sources</a>
+      {% endif %}
+    </div>
+  </div>
+</div>

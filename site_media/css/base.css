@@ -1,0 +1,45 @@
+body {
+  font-family: "Helvetica neue";
+  font-weight: 200;
+  color: #626262;
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+}
+input, textarea {
+  font-family: "Helvetica neue";
+  font-weight: 200;
+  font-size: 10pt;
+}
+.hidden {
+  display: none;
+}
+
+.inner {
+  margin-left: 41px;
+  margin-right: 41px;
+  width: 893px;
+}
+
+#header {
+  border-bottom: solid 2px #c0c0c0;
+}
+#links {
+  text-align: right;
+  padding: 20px 20px 3px 0px;
+  font-size: 13pt;
+}
+#links a {
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-bottom: 1px;
+}

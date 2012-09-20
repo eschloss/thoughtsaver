@@ -1,0 +1,66 @@
+<html>
+  <head>
+    {% load media %}
+    {% include_media 'main.js' %}
+    {% include_media 'myGoogleDocs.js' %}
+    {% load custom_filters %}
+  </head>
+  <body>
+    {% if backrequired %}
+      <h1>You must choose "back" as one of the columns for importing.</h1>
+    {% endif %}
+    <form method="post" action="{% url importing.views.generate_cards spreadsheet_title worksheet_title %}">
+      Tags to add to all cards <input name="titleTags" type="text" value="{{ titleTags }}" />
+      <table>
+        <thead>
+          <tr>
+            <td>import</td>
+            {% for i in max_cols %}
+            <td>
+              <select name="{{i}}">
+                <option value="none">-</option>
+                {% with colNames|index:i|lower as col %}
+                <option value="front" {% if col == "front" %}selected="selected"{% endif %}>front</option>
+                <option value="back" {% if col == "back" %}selected="selected"{% endif %}>back</option>
+                <option value="tags" {% if col == "tags" or col == 'tag' or col == 'taglist' %}selected="selected"{% endif %}>tag(s)</option>
+                <option value="source" {% if col == "source" or col == 'sources' or col == 'sourcelist' %}selected="selected"{% endif %}>source</option>
+                <option value="private" {% if col == "private" %}selected="selected"{% endif %}>private</option>
+                <option value="donottest" {% if col == "donottest" or col == 'do not test' %}selected="selected"{% endif %}>do not test</option>
+                <option value="priority" {% if col == "priority" %}selected="selected"{% endif %}>priority</option>
+                {% endwith %}
+              </select>
+            </td>
+            {% endfor %}
+          </tr>
+          {% if colNames %}
+          <th>
+            {% for col in colNames %}
+              <td>{{ col }}</td>
+            {% endfor %}
+          </th>
+          {% endif %}
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr>
+              <td><input type="checkbox" checked="checked" class="donotimport_checkbox" id="{{ row.pk }}"/></td>
+              {% for col in row.columns %}
+                <td>{{ col }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      <select name="donotimport" multiple="multiple" style="display: none;">
+        {% for row in rows %}
+          <option id="row_{{ row.pk }}" value="{{ row.pk }}"></option>
+        {% endfor %}
+      </select>
+      
+      <input type="submit" value="submit"/>
+    </form>
+    
+  </body>
+  
+</html>

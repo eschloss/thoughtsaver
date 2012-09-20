@@ -1,0 +1,16 @@
+<html>
+  <head>
+    {% load media %}
+    {% include_media 'main.js' %}
+    {% include_media 'myGoogleDocs.js' %}
+  </head>
+  <body>
+    <h2>{{ spreadsheet_title }}</h2>
+    
+    {% for key, value in sheets.items %}
+      <a href="{% url importing.views.import_spreadsheet spreadsheet_id value spreadsheet_title key %}">{{ key }}</a><br/>
+    {% endfor %}
+    
+  </body>
+  
+</html>

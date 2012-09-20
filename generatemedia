@@ -1,0 +1,5 @@
+python manage.py generatemedia
+cd _generated_media
+find . | grep [^/]\.js$ |  xargs -I {} ../compressmedia2 {} 
+find . | grep [^/]\.js$ |  xargs -I {} ../compressmedia {} 
+find . | grep [^/]\.css$ |  xargs -I {} ../compressmedia {} 

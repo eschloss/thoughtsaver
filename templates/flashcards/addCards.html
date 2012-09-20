@@ -1,0 +1,17 @@
+<html>
+  <head></head>
+  <body>
+    <form method="post" action="">
+      {{ cardFormSet.management_form }}
+      <table>
+        {% for form in cardFormSet %}
+          {{ form }}
+        {% endfor %}
+      </table>
+      <input type="submit" value="Add Cards"/> 
+    </form>
+    
+    
+  </body>
+  
+</html>

@@ -1,0 +1,20 @@
+<html>
+  <head>
+    {% load media %}
+    {% include_media 'main.js' %}
+    {% include_media 'myTags.js' %}
+    {% include_media 'myTags.css' %}
+    {% load custom_filters %}
+  </head>
+  <body>
+    {% include 'header.html' %}
+    
+    {% for tag in tags %}
+      <div class="tag">{{ tag.denormalized_searchable_name }}</div>
+    {% endfor %}
+    
+    <div id="tagcloud"></div>
+    
+  </body>
+  
+</html>

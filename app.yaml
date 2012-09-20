@@ -1,0 +1,44 @@
+application: thoughtsaver0
+version: 0
+#runtime: python27
+runtime: python
+api_version: 1
+threadsafe: no
+
+builtins:
+- remote_api: on
+- datastore_admin: on
+
+inbound_services:
+- warmup
+- mail
+
+handlers:
+- url: /_ah/queue/deferred
+  script: djangoappengine/deferred/handler.py
+  
+- url: /_ah/stats/.*
+  script: djangoappengine/appstats/ui.py
+  
+- url: /media/admin
+  static_dir: django/contrib/admin/media
+  expiration: '0'
+  
+- url: /site_media
+  static_dir: site_media
+  expiration: '0'
+
+- url: /media
+  static_dir: _generated_media/
+  expiration: '365d'
+  
+- url: /favicon.ico
+  static_files: site_media/img/favicon.ico
+  upload: site_media/img/favicon.ico
+  
+- url: /google1e85697ac6253bcf.html 
+  static_files: site_media/google1e85697ac6253bcf.html
+  upload: site_media/google1e85697ac6253bcf.html
+  
+- url: /.*
+  script: djangoappengine/main/main.py

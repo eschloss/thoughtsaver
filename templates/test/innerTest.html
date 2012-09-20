@@ -1,0 +1,43 @@
+<div id="cards">
+  <form method="post" action="http://thoughtsaver0.appspot.com/completeTest">
+    <h3>Test</h3>
+    <ol>
+    {% for fcard in cards %}
+      {% with card=fcard.card %}
+      <li class="testcard" id="card_{{ card.pk }}">
+        <div class="front">
+          {{ card.front }}
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        {% if fcard.tagList|length > 0 %}tags: {{ fcard.tagList|join:", " }}{% endif %}
+        
+        {% if extraBreaks %}
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br/>
+        {% endif %}
+        <br/><br/>
+      
+        <div class="back">
+          
+          {{ card.back }}
+          <br/><br/>
+  
+          <input type="radio" checked="checked" name="q_{{ card.pk }}" value="0" />0
+          <input type="radio" name="q_{{ card.pk }}" value="1" />1
+          <input type="radio" name="q_{{ card.pk }}" value="2" />2
+          <input type="radio" name="q_{{ card.pk }}" value="3" />3
+          <input type="radio" name="q_{{ card.pk }}" value="4" />4
+          <input type="radio" name="q_{{ card.pk }}" value="5" />5
+        </div>
+      </li>
+      {% endwith %}
+    {% endfor %}
+    </ol>
+    <br/>
+    <input type="submit" value="finish"/>
+  </form>
+</div>  

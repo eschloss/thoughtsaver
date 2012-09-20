@@ -1,0 +1,1 @@
+$(document).ready(function(){$(".donotimport_checkbox").click(function(){var b=$(this).attr("id");$(this).attr("checked")?$("option#row_"+b).attr("selected",!1):$("option#row_"+b).attr("selected",!0)})});

@@ -1,0 +1,1 @@
+$(document).ready(function(){var e={};$(".tag").each(function(){e[$(this).text()]==void 0?e[$(this).text()]=1:e[$(this).text()]+=1});var f=$("#tagcloud");for(s in e){var d=$("<a></a>",{text:s+" ",href:"/myCards?tags="+escape(s)+"&mycardsonly=on"});d.css("font-size",10+e[s]+"pt");f.append(d)}});

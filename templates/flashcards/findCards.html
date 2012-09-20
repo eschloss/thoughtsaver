@@ -1,0 +1,22 @@
+<html>
+  <head></head>
+  <body>
+    <form method="post" action="">
+      <input name="tags" type="text" maxlength=100 /><input type="submit" value="search"/>
+    </form>
+    <table>
+    {% for fc in cards %}
+      <tr>
+        <td>
+          {% if fc.card.settings == settings %}<a target="_blank" href="/removeCard/{{ fc.card.pk }}">REMOVE CARD</a>
+          {% else %}<a target="_blank" href="/copyCard/{{ fc.card.pk }}">ADD CARD</a>
+          {% endif %}
+        </td>
+        <td>- {{ fc.card.front }}</td><td>{{ fc.card.back }}</td><td>{{ fc.tagList }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+    
+  </body>
+  
+</html>

@@ -1,0 +1,13 @@
+.inner {
+  margin: 0px;
+  position: relative;
+  top:-15px;
+}
+body {
+  margin-top: 0px;
+  overflow: hidden;
+}
+#createcard {
+  top:0px;
+  z-index: 10;
+}

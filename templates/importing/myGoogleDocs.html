@@ -1,0 +1,18 @@
+<html>
+  <head>
+    {% load media %}
+    {% include_media 'main.js' %}
+    {% include_media 'myGoogleDocs.js' %}
+  </head>
+  <body>
+    <a href="/import/get_oauth_token">Select different Google Account</a>
+    <br/><br/>
+    
+    
+    {% for key, value in sheets.items %}
+      <a href="{% url importing.views.select_worksheet value key %}">{{ key }}</a><br/>
+    {% endfor %}
+    
+  </body>
+  
+</html>

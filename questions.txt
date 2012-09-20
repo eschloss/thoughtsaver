@@ -1,0 +1,54 @@
+how large should the front and back of the flashcards be limited to in # of chars?
+  - max length of tag? front limited to 200. back textarea
+
+spaced repetition algorithm? supermemo2 - modified by priority & by content
+limit number of test items
+
+tags by space, tags by comma? how is it delimited? comma
+
+when you search, how should user be notified that a tag doesnt exist in the system?
+Currently, these tags do not filter the search (intentionally) -  but doesnt user want
+to know that a specific tag isnt affecting the search?
+
+duplicate cards of the same person?
+
+only AJAX compatible? what about the js blocked users? UI - build the best, and make it backwards compatible.
+or build the worst and make it forwards fancy? basic first.
+
+recaptcha for newusers? someone said they didnt like them
+captcha alternative - use blank input field, if it fills up then its a bot
+
+incoming mail address. something@thoughtsaver.com - outgoing mail address test@thoughtsaver.com?
+
+
+__________my own notes - they wont make sense to anyone else_______________________
+user --> card
+duplicate cards? right?
+
+search within own:
+same as b4 w/ user in query
+
+-->
+DB - better to have user on card if its duplicate
+
+stu - refs to owner. sounds good!
+
+Tuesday Nov 16th, 11:30am - chat
+
+_________________________________ meeting Friday 12/12/11
+
+add cards to the top.
+tell i'm  processing cards
+importing from google docs
+initial "front"/bck text in fields thats disappears
+reorder testing so back of cards is below front
+hiding on web version of test
+enter keybinding
+resubmit card if broken
+do not allow sending of invalid card
+check out if a blank form on email does anything
+after email take user to quizpage
+
+access google spreadsheets doc in spencers code.
+
+2pm chat next friday
